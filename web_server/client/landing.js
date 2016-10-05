@@ -23,16 +23,24 @@ function getPosition(el) {
   };
 }
 
+function setPointer() {
+  console.log('we');
+  var offSets = getPosition(canvas);
+  x = event.clientX;
+  y = event.clientY;
+  $('#pointer').css('margin-top', y - offSets.y - 12.5);
+  $('#pointer').css('margin-left', x - 12.5);
+  $('#pointer').css('display', 'inherit');
+}
+
+var x;
+var y;
+var canvas;
+
 Template.landing.events({
   'click #canvas' (event) {
-    var offSets = getPosition(event.currentTarget);
-    console.log(offSets);
-    var x = event.clientX;
-    var y = event.clientY;
-    console.log(x,y);
-    $('#pointer').css('margin-top', y - offSets.y - 25)
-    $('#pointer').css('margin-left', x - 25)
-    $('#pointer').css('display', 'inherit')
+    canvas = event.currentTarget;
+    setPointer();
   },
 
 
