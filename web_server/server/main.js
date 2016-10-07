@@ -7,7 +7,12 @@ Meteor.startup(() => {
 Meteor.methods({
     'sendCoords': function(x, y){
       console.log('wei', x, y);
-      HTTP.get('http://127.0.0.1:5000/wei');
+      //HTTP.get('http://127.0.0.1:5000/wei');
+      var options = {
+        'x': x,
+        'y': y,
+      }
+      HTTP.post('http://127.0.0.1:5000/wei', options)
     }
 });
 

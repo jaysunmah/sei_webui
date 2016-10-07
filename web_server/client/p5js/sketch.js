@@ -1,25 +1,23 @@
 var sketch1 = function (s) {
     var x = 0;
-    //var map;
+    var map;
+    var imageScale = 200;
 
     s.preload = function() {
       console.log('wei');
-      //map = s.loadImage("ghc5.png");
+      map = s.loadImage("images/sei_layout.png");
 
     }
 
     s.setup = function () {
-        s.createCanvas($('#sketch1').width(), 500);
-        //s.background(100);
+        s.createCanvas($('#sketch1').width(), 1000);
     };
 
     s.draw = function () {
       s.background(255);
+      s.image(map, $('#sketch1').width() / 2 - 2.5 * imageScale / 2, 0, 2.5 * imageScale, 4 * imageScale);
       s.rect(x,10,50,50);
       x = (x + 10) % $('#sketch1').width();
-
-      //s.image(map, 250, 250);
-
     }
 
     s.mouseClicked = function() {
