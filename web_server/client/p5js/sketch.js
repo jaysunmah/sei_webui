@@ -2,11 +2,13 @@ var sketch1 = function (s) {
     var x = 0;
     var map;
     var imageScale = 200;
+    var setRobotX = -1;
+    var setRobotY = -1;
+    var crosshairSize = 10;
 
     s.preload = function() {
       console.log('wei');
       map = s.loadImage("images/sei_layout.png");
-
     }
 
     s.setup = function () {
@@ -18,11 +20,22 @@ var sketch1 = function (s) {
       s.image(map, $('#sketch1').width() / 2 - 2.5 * imageScale / 2, 0, 2.5 * imageScale, 4 * imageScale);
       s.rect(x,10,50,50);
       x = (x + 10) % $('#sketch1').width();
+
+      if (setRobotX >= 0) {
+        drawRobot(s, setRobotX, setRobotY, 0);
+      }
+    }
+
+    function drawRobot(s, x, y, th) {
+      s.ellipse(x, y, 10, 10);
     }
 
     s.mouseClicked = function() {
       console.log(s.mouseX, s.mouseY);
-      Meteor.call('sendCoords', s.mouseX, s.mouseY);
+      $('#calibrateLeft').val(s.mouseX);
+      setRobotX = s.mouseX;
+      setRobotY = s.mouseY;
+      //Meteor.call('sendCoords', s.mouseX, s.mouseY);
     }
 };
 

@@ -1,11 +1,67 @@
 <template name="landing">
-  <div class="container">
+  <div class="ui container">
+    <div class="ui hidden divider"></div>
     <h1>_turtlebot.init();</h1>
     <h3>>> hello world.</h3>
+    <div class="ui fluid stackable grid">
+      <div class="row">
+        <div class="four wide column">
+          <h3>Grid alignment settings:</h3>
+					<div class="ui grid">
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui action input">
+									<input type="text" placeholder="Left" size=5 id="calibrateLeft">
+									<button class="ui button">Calibrate</button>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui action input">
+									<input type="text" placeholder="Right" size=5>
+									<button class="ui button">Calibrate</button>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui action input">
+									<input type="text" placeholder="Top" size=5>
+									<button class="ui button">Calibrate</button>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui action input">
+									<input type="text" placeholder="Bottom" size=5>
+									<button class="ui button">Calibrate</button>
+								</div>
+							</div>
+						</div>
+					</div>
+        </div>
+        <div class="eight wide column">
+					<h3>Turtle Bot Status:</h3>
+					<p>Position (x):</p>
+					<p>Position (y):</p>
+					<p>Heading (th):</p>
+					<p>Message:</p>
+          <div class="ui segment">
+            status!
+          </div>
+
+        </div>
+        <div class="four wide column">
+          <h3>Movements:</h3>
+          <h4>Selected coordinates:</h4>
+          <div class="ui fluid button">Go!</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="sketch1" class="container"></div>
-  <!--<div id="pointer">
-    <img class="img-responsive" src="/images/x_coral.png">
-  </div>
-  <img class="img-responsive container" src="/images/sei_layout.png" id="canvas"> -->
+	<div class="ui container">
+  	<div id="sketch1" class="container"></div>
+	</div>
 </template>
