@@ -38,10 +38,17 @@ var y;
 var canvas;
 
 Template.landing.events({
-  'click #canvas' (event) {
-    canvas = event.currentTarget;
-    setPointer();
+  'click #calibrateLeftButton' (event) {
+    document.getElementById("calibrateLeft").readOnly = false;
+  },
+  'click #calibrateRightButton' (event) {
+    document.getElementById("calibrateRight").readOnly = false;
   },
 
+});
 
+Template.landing.helpers({
+  selected: function () {
+    return Session.get('mouseCoords') || {x: "n/a", y: "n/a"};
+  }
 });

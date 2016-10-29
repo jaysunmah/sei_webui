@@ -12,7 +12,9 @@ var sketch1 = function (s) {
     }
 
     s.setup = function () {
-        s.createCanvas($('#sketch1').width(), 1000);
+      s.createCanvas($('#sketch1').width(), 1000);
+      s.rectMode(s.CENTER);
+      s.noStroke();
     };
 
     s.draw = function () {
@@ -22,25 +24,48 @@ var sketch1 = function (s) {
       x = (x + 10) % $('#sketch1').width();
 
       if (setRobotX >= 0) {
-        drawRobot(s, setRobotX, setRobotY, 0);
+        drawRobotSetPoint(s, setRobotX, setRobotY);
       }
+      drawRobot(s, 436.5, 242.5625, 0);
+    }
+
+    function drawRobotSetPoint(s, x, y) {
+      //s.ellipse(x, y, 10, 10);
+      s.push();
+      s.fill('#ff7361');
+      s.translate(x, y);
+      s.rotate(s.radians(45));
+      s.rect(0,0,6,40);
+      s.rotate(s.radians(90));
+      s.rect(0,0,6,40);
+      s.pop();
     }
 
     function drawRobot(s, x, y, th) {
-      s.ellipse(x, y, 10, 10);
+      s.push();
+      s.fill('#ff7361');
+      s.translate(x, y);
+      s.rotate(s.radians(-1 * th));
+      s.rect(0,5,20,15);
+      s.arc(0,0,20, 25, s.PI, 0);
+      s.fill('#000');
+      s.rect(-12, 4, 4, 10);
+      s.rect(12, 4, 4, 10);
+      s.pop();
     }
 
     s.mouseClicked = function() {
-      console.log(s.mouseX, s.mouseY);
-      $('#calibrateLeft').val(s.mouseX);
-      setRobotX = s.mouseX;
-      setRobotY = s.mouseY;
+      if (s.mouseX >= 0 && s.mouseY >= 0) {
+        $('#calibrateLeft').val(s.mouseX);
+        setRobotX = s.mouseX;
+        setRobotY = s.mouseY;
+        Session.set('mouseCoords', {x: s.mouseX, y: s.mouseY});
+      }
       //Meteor.call('sendCoords', s.mouseX, s.mouseY);
     }
 };
 
 
 Template.landing.onRendered(function() {
-    console.log('pls worl');
     new p5(sketch1, "sketch1");
 })
