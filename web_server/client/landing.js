@@ -39,10 +39,44 @@ var canvas;
 
 Template.landing.events({
   'click #calibrateLeftButton' (event) {
-    document.getElementById("calibrateLeft").readOnly = false;
+    if (Session.get('mouseSelect') == 'no_select') {
+      Session.set('mouseSelect', 'left');
+      $('#calibrateLeftButton').addClass('blue');
+      document.getElementById("calibrateLeft").readOnly = false;
+    } else if (Session.get('mouseSelect') == 'left') {
+      Session.set('mouseSelect', 'no_select');
+      $('#calibrateLeftButton').removeClass('blue');
+    }
   },
   'click #calibrateRightButton' (event) {
-    document.getElementById("calibrateRight").readOnly = false;
+    if (Session.get('mouseSelect') == 'no_select') {
+      Session.set('mouseSelect', 'right');
+      $('#calibrateRightButton').addClass('blue');
+      document.getElementById("calibrateRight").readOnly = false;
+    } else if (Session.get('mouseSelect') == 'right') {
+      Session.set('mouseSelect', 'no_select');
+      $('#calibrateRightButton').removeClass('blue');
+    }
+  },
+  'click #calibrateTopButton' (event) {
+    if (Session.get('mouseSelect') == 'no_select') {
+      Session.set('mouseSelect', 'top');
+      $('#calibrateTopButton').addClass('blue');
+      document.getElementById("calibrateTop").readOnly = false;
+    } else if (Session.get('mouseSelect') == 'top') {
+      Session.set('mouseSelect', 'no_select');
+      $('#calibrateTopButton').removeClass('blue');
+    }
+  },
+  'click #calibrateBottomButton' (event) {
+    if (Session.get('mouseSelect') == 'no_select') {
+      Session.set('mouseSelect', 'bottom');
+      $('#calibrateBottomButton').addClass('blue');
+      document.getElementById("calibrateBottom").readOnly = false;
+    } else if (Session.get('mouseSelect') == 'bottom') {
+      Session.set('mouseSelect', 'no_select');
+      $('#calibrateBottomButton').removeClass('blue');
+    }
   },
 
 });

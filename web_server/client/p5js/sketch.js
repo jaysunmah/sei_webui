@@ -2,9 +2,24 @@ var sketch1 = function (s) {
     var x = 0;
     var map;
     var imageScale = 200;
-    var setRobotX = -1;
-    var setRobotY = -1;
+    var mouseX = -1;
+    var mouseY = -1;
     var crosshairSize = 10;
+    var calibrationPoints = {
+      left: {
+        x: -1,
+        y: -1
+      }, right: {
+        x: -1,
+        y: -1
+      }, top: {
+        x: -1,
+        y: -1
+      }, bottom: {
+        x: -1,
+        y: -1
+      }
+    }
 
     s.preload = function() {
       console.log('wei');
@@ -12,6 +27,7 @@ var sketch1 = function (s) {
     }
 
     s.setup = function () {
+      console.log(calibrationPoints);
       s.createCanvas($('#sketch1').width(), 1000);
       s.rectMode(s.CENTER);
       s.noStroke();
@@ -23,10 +39,34 @@ var sketch1 = function (s) {
       s.rect(x,10,50,50);
       x = (x + 10) % $('#sketch1').width();
 
-      if (setRobotX >= 0) {
-        drawRobotSetPoint(s, setRobotX, setRobotY);
+      if (calibrationPoints.left.x >= 0) {
+        drawVerticalLine(s, calibrationPoints.left.x, calibrationPoints.left.y);
       }
+      if (calibrationPoints.right.x >= 0) {
+        drawVerticalLine(s, calibrationPoints.right.x, calibrationPoints.right.y);
+      }
+      if (calibrationPoints.top.x >= 0) {
+        drawHorizontalLine(s, calibrationPoints.top.x, calibrationPoints.top.y);
+      }
+      if (calibrationPoints.bottom.x >= 0) {
+        drawHorizontalLine(s, calibrationPoints.bottom.x, calibrationPoints.bottom.y);
+      }
+
+      if (Session.get('mouseSelect') == 'sendRobot') {
+        drawRobotSetPoint(s, mouseX, mouseY);
+      }
+
       drawRobot(s, 436.5, 242.5625, 0);
+    }
+
+    function drawHorizontalLine(s, x, y) {
+      s.fill('#ff7361');
+      s.rect(x, y, s.windowWidth * 2, 5);
+    }
+
+    function drawVerticalLine(s, x, y) {
+      s.fill('#ff7361');
+      s.rect(x, y, 5, s.windowHeight * 2);
     }
 
     function drawRobotSetPoint(s, x, y) {
@@ -55,10 +95,26 @@ var sketch1 = function (s) {
     }
 
     s.mouseClicked = function() {
-      if (s.mouseX >= 0 && s.mouseY >= 0) {
+      if (s.mouseX >= 0 && s.mouseY >= 0 && Session.get('mouseSelect') != 'no_select') {
+        if (Session.get('mouseSelect') == 'left') {
+          calibrationPoints.left.x = s.mouseX;
+          calibrationPoints.left.y = s.mouseY;
+        } else if (Session.get('mouseSelect') == 'right') {
+          calibrationPoints.right.x = s.mouseX;
+          calibrationPoints.right.y = s.mouseY;
+        } else if (Session.get('mouseSelect') == 'top') {
+          calibrationPoints.top.x = s.mouseX;
+          calibrationPoints.top.y = s.mouseY;
+        } else if (Session.get('mouseSelect') == 'bottom') {
+          calibrationPoints.bottom.x = s.mouseX;
+          calibrationPoints.bottom.y = s.mouseY;
+        } else if (Session.get('mouseSelect') == 'sendRobot') {
+          console.log('wei');
+        }
+
         $('#calibrateLeft').val(s.mouseX);
-        setRobotX = s.mouseX;
-        setRobotY = s.mouseY;
+        mouseX = s.mouseX;
+        mouseY = s.mouseY;
         Session.set('mouseCoords', {x: s.mouseX, y: s.mouseY});
       }
       //Meteor.call('sendCoords', s.mouseX, s.mouseY);
@@ -67,5 +123,6 @@ var sketch1 = function (s) {
 
 
 Template.landing.onRendered(function() {
+    Session.set('mouseSelect', 'no_select');
     new p5(sketch1, "sketch1");
 })
