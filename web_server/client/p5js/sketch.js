@@ -40,16 +40,16 @@ var sketch1 = function (s) {
       x = (x + 10) % $('#sketch1').width();
 
       if (calibrationPoints.left.x >= 0) {
-        drawVerticalLine(s, calibrationPoints.left.x, calibrationPoints.left.y);
+        drawVerticalLine(s, calibrationPoints.left.x);
       }
       if (calibrationPoints.right.x >= 0) {
-        drawVerticalLine(s, calibrationPoints.right.x, calibrationPoints.right.y);
+        drawVerticalLine(s, calibrationPoints.right.x);
       }
       if (calibrationPoints.top.x >= 0) {
-        drawHorizontalLine(s, calibrationPoints.top.x, calibrationPoints.top.y);
+        drawHorizontalLine(s, calibrationPoints.top.y);
       }
       if (calibrationPoints.bottom.x >= 0) {
-        drawHorizontalLine(s, calibrationPoints.bottom.x, calibrationPoints.bottom.y);
+        drawHorizontalLine(s, calibrationPoints.bottom.y);
       }
 
       if (Session.get('mouseSelect') == 'sendRobot') {
@@ -59,14 +59,42 @@ var sketch1 = function (s) {
       drawRobot(s, 436.5, 242.5625, 0);
     }
 
-    function drawHorizontalLine(s, x, y) {
-      s.fill('#ff7361');
-      s.rect(x, y, s.windowWidth * 2, 5);
+    function drawHorizontalLine(s, y) {
+      s.strokeWeight(5);
+      s.stroke('#ff7361');
+      var xStart = 0;
+      var xEnd = s.windowWidth;
+
+      if (calibrationPoints.left.x >= 0) {
+        xStart = calibrationPoints.left.x;
+      }
+
+      if (calibrationPoints.right.x >= 0) {
+        xEnd = calibrationPoints.right.x;
+      }
+      s.line(xStart, y, xEnd, y);
+      
+      s.noStroke();
+      s.strokeWeight(1);
     }
 
-    function drawVerticalLine(s, x, y) {
-      s.fill('#ff7361');
-      s.rect(x, y, 5, s.windowHeight * 2);
+    function drawVerticalLine(s, x) {
+      s.strokeWeight(5);
+      s.stroke('#ff7361');
+      var yStart = 0;
+      var yEnd = s.windowHeight;
+
+      if (calibrationPoints.top.y >= 0) {
+        yStart = calibrationPoints.top.y;
+      }
+
+      if (calibrationPoints.bottom.y >= 0) {
+        yEnd = calibrationPoints.bottom.y;
+      }
+      s.line(x, yStart, x, yEnd);
+
+      s.noStroke();
+      s.strokeWeight(1);
     }
 
     function drawRobotSetPoint(s, x, y) {
