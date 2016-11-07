@@ -39,43 +39,41 @@ var canvas;
 
 Template.landing.events({
   'click #calibrateLeftButton' (event) {
-    if (Session.get('mouseSelect') == 'no_select') {
-      Session.set('mouseSelect', 'left');
-      $('#calibrateLeftButton').addClass('blue');
-      document.getElementById("calibrateLeft").readOnly = false;
-    } else if (Session.get('mouseSelect') == 'left') {
+    if (Session.get('mouseSelect') == 'left') {
       Session.set('mouseSelect', 'no_select');
-      $('#calibrateLeftButton').removeClass('blue');
+    } else {
+      Session.set('mouseSelect', 'left');
     }
   },
   'click #calibrateRightButton' (event) {
-    if (Session.get('mouseSelect') == 'no_select') {
-      Session.set('mouseSelect', 'right');
-      $('#calibrateRightButton').addClass('blue');
-      document.getElementById("calibrateRight").readOnly = false;
-    } else if (Session.get('mouseSelect') == 'right') {
+    if (Session.get('mouseSelect') == 'right') {
       Session.set('mouseSelect', 'no_select');
-      $('#calibrateRightButton').removeClass('blue');
+    } else {
+      Session.set('mouseSelect', 'right');
     }
   },
   'click #calibrateTopButton' (event) {
-    if (Session.get('mouseSelect') == 'no_select') {
-      Session.set('mouseSelect', 'top');
-      $('#calibrateTopButton').addClass('blue');
-      document.getElementById("calibrateTop").readOnly = false;
-    } else if (Session.get('mouseSelect') == 'top') {
+    if (Session.get('mouseSelect') == 'top') {
       Session.set('mouseSelect', 'no_select');
-      $('#calibrateTopButton').removeClass('blue');
+    } else {
+      Session.set('mouseSelect', 'top');
     }
+
   },
   'click #calibrateBottomButton' (event) {
-    if (Session.get('mouseSelect') == 'no_select') {
-      Session.set('mouseSelect', 'bottom');
-      $('#calibrateBottomButton').addClass('blue');
-      document.getElementById("calibrateBottom").readOnly = false;
-    } else if (Session.get('mouseSelect') == 'bottom') {
+    if (Session.get('mouseSelect') == 'bottom') {
       Session.set('mouseSelect', 'no_select');
-      $('#calibrateBottomButton').removeClass('blue');
+    } else {
+      Session.set('mouseSelect', 'bottom');
+    }
+  },
+  'click #calibrateAll' (event) {
+    if (Session.get('calibrateAll')) {
+      Session.set('calibrateAll', false);
+      Session.set('mouseSelect', 'no_select');
+    } else {
+      Session.set('mouseSelect', 'left');
+      Session.set('calibrateAll', true);
     }
   },
 
@@ -84,5 +82,41 @@ Template.landing.events({
 Template.landing.helpers({
   selected: function () {
     return Session.get('mouseCoords') || {x: "n/a", y: "n/a"};
+  },
+  blueLeft: function () {
+    if (Session.get('mouseSelect') == 'left') {
+      return 'blue'
+    }
+    return ''
+  },
+  blueRight: function () {
+    if (Session.get('mouseSelect') == 'right') {
+      return 'blue'
+    }
+    return ''
+  },
+  blueTop: function () {
+    if (Session.get('mouseSelect') == 'top') {
+      return 'blue'
+    }
+    return ''
+  },
+  blueBottom: function () {
+    if (Session.get('mouseSelect') == 'bottom') {
+      return 'blue'
+    }
+    return ''
+  },
+  blueCalibrateAll: function () {
+    if (Session.get('calibrateAll')) {
+      return 'blue'
+    }
+    return ''
+  },
+  blueGo: function () {
+    if (Session.get('sendCoords')) {
+      return 'blue'
+    }
+    return ''
   }
 });
