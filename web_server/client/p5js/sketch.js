@@ -22,27 +22,60 @@ var sketch1 = function (s) {
         y: -1
       }
     }
+    Session.set('calibrationPoints', calibrationPoints);
     var setRobotPoints = {
       x: -1,
       y: -1,
     }
 
     s.preload = function() {
-      console.log('wei');
       map = s.loadImage("images/sei_layout.png");
     }
 
     s.setup = function () {
-      console.log(calibrationPoints);
       s.createCanvas($('#sketch1').width(), 1000);
       s.rectMode(s.CENTER);
       s.noStroke();
     };
 
+
     s.draw = function () {
       s.background(255);
       s.image(map, $('#sketch1').width() / 2 - 2.5 * imageScale / 2, 0, 2.5 * imageScale, 4 * imageScale);
-  
+
+      var calibrationCount = drawCalibrationLines(s);
+      Session.set('calibrationCount', calibrationCount);
+      displayInstructions(s, calibrationCount);
+      if (calibrationCount == 4) {
+        s.text("All calibration points are set!\nClick anywhere to send the robot", 25, 25);
+        all_calibrated = true;
+        var roomWidth = calibrationPoints.right.x - calibrationPoints.left.x;
+        console.log(roomWidth);
+        var roomWidthFrac = 0.6652173913043479;
+        var roomHeight = calibrationPoints.bottom.y - calibrationPoints.top.y;
+        drawRobot(s, roomWidth * roomWidthFrac + calibrationPoints.left.x, 242.5625, 0);
+        if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
+          drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
+        }
+      } else if (calibrationCount == 0 && !Session.get('calibrateAll')) {
+        s.text("No calibration points set!\nPlease click calibrate all edges", 25, 25);
+      }
+    }
+
+    function displayInstructions(s, count) {
+      var instructions;
+      if (Session.get('mouseSelect') == 'left') {
+        s.text("Please select the left\nmost boundary", 25, 25);
+      } else if (Session.get('mouseSelect') == 'right') {
+        s.text("Please select the right\nmost boundary", 25, 25);
+      } else if (Session.get('mouseSelect') == 'top') {
+        s.text("Please select the top\nmost boundary", 25, 25);
+      } else if (Session.get('mouseSelect') == 'bottom') {
+        s.text("Please select the bottom\nmost boundary", 25, 25);
+      }
+    }
+
+    function drawCalibrationLines(s) {
       var calibrationCount = 0;
       if (calibrationPoints.left.x >= 0) {
         drawVerticalLine(s, calibrationPoints.left.x);
@@ -60,13 +93,8 @@ var sketch1 = function (s) {
         drawHorizontalLine(s, calibrationPoints.bottom.y);
         calibrationCount += 1;
       }
-      if (calibrationCount == 4) {
-        all_calibrated = true;
-        if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
-          drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
-        }
-      }
-      drawRobot(s, 436.5, 242.5625, 0);
+      //displayInstructions(s, calibrationCount);
+      return calibrationCount;
     }
 
     function drawHorizontalLine(s, y) {
@@ -140,21 +168,21 @@ var sketch1 = function (s) {
           if (Session.get('calibrateAll')) {
             Session.set('mouseSelect', 'top');
           }
-          $('#calibrateLeft').val(s.mouseX);
+          $('#calibrateLeft').val('x = ' + s.mouseX);
         } else if (Session.get('mouseSelect') == 'right') {
           calibrationPoints.right.x = s.mouseX;
           calibrationPoints.right.y = s.mouseY;
           if (Session.get('calibrateAll')) {
             Session.set('mouseSelect', 'bottom');
           }
-
+          $('#calibrateRight').val('x = ' + s.mouseX);
         } else if (Session.get('mouseSelect') == 'top') {
           calibrationPoints.top.x = s.mouseX;
           calibrationPoints.top.y = s.mouseY;
           if (Session.get('calibrateAll')) {
             Session.set('mouseSelect', 'right');
           }
-
+          $('#calibrateTop').val('y = ' + s.mouseX);
         } else if (Session.get('mouseSelect') == 'bottom') {
           calibrationPoints.bottom.x = s.mouseX;
           calibrationPoints.bottom.y = s.mouseY;
@@ -162,12 +190,13 @@ var sketch1 = function (s) {
             Session.set('mouseSelect', 'no_select');
             Session.set('calibrateAll', false);
           }
+          $('#calibrateBottom').val('y = ' + s.mouseY);
         } else if (Session.get('mouseSelect') == 'no_select' && all_calibrated) {
           Session.set('sendCoords', true);
           setRobotPoints.x = s.mouseX;
           setRobotPoints.y = s.mouseY;
         }
-
+        Session.set('calibrationPoints', calibrationPoints);
         mouseX = s.mouseX;
         mouseY = s.mouseY;
         Session.set('mouseCoords', {x: s.mouseX, y: s.mouseY});

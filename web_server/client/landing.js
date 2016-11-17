@@ -76,7 +76,11 @@ Template.landing.events({
       Session.set('calibrateAll', true);
     }
   },
-
+  'click #sendRobot' (event) {
+    if (Session.get('sendCoords')) {
+      console.log("WEI HELLO");
+    }
+  },
 });
 
 Template.landing.helpers({
@@ -118,5 +122,8 @@ Template.landing.helpers({
       return 'blue'
     }
     return ''
-  }
+  },
+  calibrationPoints: function () {
+    return Session.get('calibrationPoiints');
+  },
 });
