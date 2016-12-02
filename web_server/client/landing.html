@@ -1,84 +1,95 @@
 <template name="landing">
   <div class="ui container">
     <div class="ui hidden divider"></div>
-    <!--<h1>_turtlebot.init();</h1>
-    <h3>>> hello world.</h3> -->
     <div class="ui fluid stackable grid">
       <div class="row">
-        <div class="four wide column">
-          <h3>Grid alignment settings:</h3>
-          <div class="ui fluid {{blueCalibrateAll}} button" id="calibrateAll">Calibrate All Edges</div>
-          <div class="ui hidden divider"></div>
-					<div class="ui grid">
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui labeled action fluid input">
-                  <div class="ui basic label">Left:</div>
-                  <input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
-                  <button class="ui {{blueLeft}} button" id="calibrateLeftButton">Calibrate</button>
+        <div class="five wide column">
+					<div class="ui styled accordion">
+						<div class="active title">
+							<i class="dropdown icon"></i>
+							Grid alignment settings:
+						</div>
+						<div class="active content" id="calibrationContainer">
+							<div class="ui fluid {{blueCalibrateAll}} button" id="calibrateAll">Calibrate All Edges</div>
+							<div class="ui hidden divider"></div>
+							<div class="ui grid">
+								<div class="row">
+									<div class="sixteen wide column">
+										<div class="ui labeled action fluid input">
+											<div class="ui basic label">Left:</div>
+											<input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
+											<button class="ui {{blueLeft}} button" id="calibrateLeftButton">Calibrate</button>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="sixteen wide column">
+										<div class="ui labeled action fluid input">
+											<div class="ui basic label">Right:</div>
+											<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
+											<button class="ui {{blueRight}} button" id="calibrateRightButton">Calibrate</button>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="sixteen wide column">
+										<div class="ui labeled action fluid input">
+											<div class="ui basic label">Top:</div>
+											<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
+											<button class="ui {{blueTop}} button" id="calibrateTopButton">Calibrate</button>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="sixteen wide column">
+										<div class="ui labeled action fluid input">
+											<div class="ui basic label">Bottom:</div>
+											<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
+											<button class="ui {{blueBottom}} button" id="calibrateBottomButton">Calibrate</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui labeled action fluid input">
-                  <div class="ui basic label">Right:</div>
-									<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
-                  <button class="ui {{blueRight}} button" id="calibrateRightButton">Calibrate</button>
-								</div>
-							</div>
+
+						<div class="title">
+							<i class="dropdown icon"></i>
+							Movements:
 						</div>
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui labeled action fluid input">
-                  <div class="ui basic label">Top:</div>
-									<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
-                  <button class="ui {{blueTop}} button" id="calibrateTopButton">Calibrate</button>
-								</div>
-							</div>
+						<div class="content" id="movementContainer">
+							<h4>Selected coordinates:</h4>
+            	<p>({{selected.x}},{{selected.y}})</p>
+            	<div class="ui fluid {{blueGo}} button" id="sendRobot">Go!</div>
 						</div>
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui labeled action fluid input">
-                  <div class="ui basic label">Bottom:</div>
-									<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
-                  <button class="ui {{blueBottom}} button" id="calibrateBottomButton">Calibrate</button>
+
+						<div class="title">
+							<i class="dropdown icon"></i>
+							Turtle Bot Status:
+						</div>
+						<div class="content">
+							<div class="ui grid">
+								<div class="row">
+									<div class="eight wide column">
+										<p>Position (x):</p>
+										<p>Position (y):</p>
+									</div>
+									<div class="eight wide column">
+										<p>Heading (th):</p>
+										<p>Message:</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="sixteen wide column">
+										<div class="ui segment">
+											status!
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-          <div class="row">
-            <div class="ui hidden divider"></div>
-            <h3>Movements:</h3>
-            <h4>Selected coordinates:</h4>
-            <p>({{selected.x}},{{selected.y}})</p>
-            <div class="ui fluid {{blueGo}} button" id="sendRobot">Go!</div>
-          </div>
-          <div class="row">
-            <div class="ui hidden divider"></div>
-            <h3>Turtle Bot Status:</h3>
-            <div class="ui grid">
-              <div class="row">
-                <div class="eight wide column">
-                  <p>Position (x):</p>
-                  <p>Position (y):</p>
-                </div>
-                <div class="eight wide column">
-                  <p>Heading (th):</p>
-                  <p>Message:</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="sixteen wide column">
-                  <div class="ui segment">
-                    status!
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="twelve wide column">
+        <div class="eleven wide column">
           <div id="sketch1"></div>
         </div>
       </div>

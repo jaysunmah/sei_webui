@@ -54,6 +54,8 @@ var sketch1 = function (s) {
         var roomWidthFrac = 0.6652173913043479;
         var roomHeight = calibrationPoints.bottom.y - calibrationPoints.top.y;
         drawRobot(s, roomWidth * roomWidthFrac + calibrationPoints.left.x, 242.5625, 0);
+
+
         if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
           drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
         }
@@ -208,5 +210,6 @@ var sketch1 = function (s) {
 
 Template.landing.onRendered(function() {
     Session.set('mouseSelect', 'no_select');
+    $('.ui.accordion').accordion();
     new p5(sketch1, "sketch1");
 })
