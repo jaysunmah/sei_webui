@@ -38,6 +38,9 @@ var y;
 var canvas;
 
 Template.landing.events({
+  'change #headingInput' (event) {
+    Session.set('initializedHeading', true);
+  },
   'click #calibrateLeftButton' (event) {
     if (Session.get('mouseSelect') == 'left') {
       Session.set('mouseSelect', 'no_select');
@@ -58,7 +61,6 @@ Template.landing.events({
     } else {
       Session.set('mouseSelect', 'top');
     }
-
   },
   'click #calibrateBottomButton' (event) {
     if (Session.get('mouseSelect') == 'bottom') {
@@ -81,49 +83,68 @@ Template.landing.events({
       console.log("WEI HELLO");
     }
   },
+  'click #confirmInitialPose' (event) {
+    if (Session.get('initializedPosition') && Session.get('initializedHeading')) {
+      $('.ui.accordion').accordion('open', 2);
+      Session.set('initializedPose', true);
+      Session.set('mouseSelect', 'send_coords');
+    }
+  },
 });
 
 Template.landing.helpers({
+  runtimeStatus: function() {
+    return Session.get('runtimeStatus') || 'Welcome to Turtlebot!';
+  },
   selected: function () {
     return Session.get('mouseCoords') || {x: "n/a", y: "n/a"};
   },
   blueLeft: function () {
     if (Session.get('mouseSelect') == 'left') {
-      return 'blue'
+      return 'blue';
     }
-    return ''
+    return '';
   },
   blueRight: function () {
     if (Session.get('mouseSelect') == 'right') {
-      return 'blue'
+      return 'blue';
     }
-    return ''
+    return '';
   },
   blueTop: function () {
     if (Session.get('mouseSelect') == 'top') {
-      return 'blue'
+      return 'blue';
     }
-    return ''
+    return '';
   },
   blueBottom: function () {
     if (Session.get('mouseSelect') == 'bottom') {
-      return 'blue'
+      return 'blue';
     }
-    return ''
+    return '';
   },
   blueCalibrateAll: function () {
     if (Session.get('calibrateAll')) {
-      return 'blue'
+      return 'blue';
     }
-    return ''
+    return '';
   },
   blueGo: function () {
     if (Session.get('sendCoords')) {
       return 'blue'
     }
-    return ''
+    return '';
   },
   calibrationPoints: function () {
     return Session.get('calibrationPoiints');
   },
+  initCoords: function() {
+    return Session.get('initPosCoords') || {x: "n/a", y: "n/a"};
+  },
+  blueInitPos: function() {
+    if (Session.get('initializedPosition') && Session.get('initializedHeading')) {
+      return 'blue';
+    }
+    return '';
+  }
 });

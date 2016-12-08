@@ -4,6 +4,9 @@
     <div class="ui fluid stackable grid">
       <div class="row">
         <div class="five wide column">
+					<div class="ui segment">
+						{{runtimeStatus}}
+					</div>
 					<div class="ui styled accordion">
 						<div class="active title">
 							<i class="dropdown icon"></i>
@@ -50,6 +53,20 @@
 									</div>
 								</div>
 							</div>
+						</div>
+
+						<div class="title">
+							<i class="dropdown icon"></i>
+							Set robot coordinates
+						</div>
+						<div class="content" id="movementContainer">
+							<h4>Selected coordinates:</h4>
+            	<p>({{initCoords.x}},{{initCoords.y}})</p>
+							<h4>Heading: <span style="font-weight: normal;" id="headingVal">0</span></h4>
+							<div class="ui slider fluid range">
+								<input type="range" id="headingInput" min="0" max="360" value="0" style="width: 100%;"/>
+							</div>
+            	<div class="ui fluid {{blueInitPos}} button" id="confirmInitialPose">Set Initial Robot Pose</div>
 						</div>
 
 						<div class="title">

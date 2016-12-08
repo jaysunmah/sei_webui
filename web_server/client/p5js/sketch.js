@@ -7,26 +7,9 @@ var sketch1 = function (s) {
     var crosshairSize = 10;
     var needs_calibration = true;
     var all_calibrated = false;
-    var calibrationPoints = {
-      left: {
-        x: -1,
-        y: -1
-      }, right: {
-        x: -1,
-        y: -1
-      }, top: {
-        x: -1,
-        y: -1
-      }, bottom: {
-        x: -1,
-        y: -1
-      }
-    }
+
     Session.set('calibrationPoints', calibrationPoints);
-    var setRobotPoints = {
-      x: -1,
-      y: -1,
-    }
+		var openedSetRobotAccordion = false;
 
     s.preload = function() {
       map = s.loadImage("images/sei_layout.png");
@@ -40,126 +23,50 @@ var sketch1 = function (s) {
 
 
     s.draw = function () {
+			wei('hello');
       s.background(255);
       s.image(map, $('#sketch1').width() / 2 - 2.5 * imageScale / 2, 0, 2.5 * imageScale, 4 * imageScale);
+			var arrowDegrees;
+      if (Session.get('initPosCoords')) {
+        arrowDegrees = Session.get('initPosCoords').th;
+      } else {
+        arrowDegrees = 0;
+      }
 
       var calibrationCount = drawCalibrationLines(s);
       Session.set('calibrationCount', calibrationCount);
       displayInstructions(s, calibrationCount);
+			//we've set all 4 corners of our bounding box, so now we can start settings
+			//calibrated coordinates
       if (calibrationCount == 4) {
-        s.text("All calibration points are set!\nClick anywhere to send the robot", 25, 25);
-        all_calibrated = true;
-        var roomWidth = calibrationPoints.right.x - calibrationPoints.left.x;
-        console.log(roomWidth);
-        var roomWidthFrac = 0.6652173913043479;
+				var roomWidth = calibrationPoints.right.x - calibrationPoints.left.x;
         var roomHeight = calibrationPoints.bottom.y - calibrationPoints.top.y;
-        drawRobot(s, roomWidth * roomWidthFrac + calibrationPoints.left.x, 242.5625, 0);
+				if (Session.get('initializedPose')) {
+        	Session.set('runtimeStatus', "All calibration points are set!\nClick anywhere to send the robot");
+        	all_calibrated = true;
+          var robotInitialPose = Session.get('initPosCoords');
+        	drawRobot(s, robotInitialPose.x, robotInitialPose.y, robotInitialPose.th);
+ 					if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
+          	drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
+        	}
+				} else {2
+        	Session.set('runtimeStatus', "All calibration points are set!\nPlease set the starting coordinates and heading of the robot");
+					if (!openedSetRobotAccordion) {
+						openedSetRobotAccordion = true;
+						$('.ui.accordion').accordion('open', 1);
+            Session.set('mouseSelect', 'init_pos');
+					}
+					if (setRobotInitPos.x >= 0 && setRobotInitPos.y >= 0) {
+						Session.set('initializedPosition', true);
+            Session.set('initPosCoords', setRobotInitPos);
+						drawRobotInitPos(s, setRobotInitPos.x, setRobotInitPos.y, arrowDegrees);
+					}
+				}
 
-
-        if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
-          drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
-        }
+       
       } else if (calibrationCount == 0 && !Session.get('calibrateAll')) {
-        s.text("No calibration points set!\nPlease click calibrate all edges", 25, 25);
+        Session.set('runtimeStatus', "No calibration points set!\nPlease click calibrate all edges");
       }
-    }
-
-    function displayInstructions(s, count) {
-      var instructions;
-      if (Session.get('mouseSelect') == 'left') {
-        s.text("Please select the left\nmost boundary", 25, 25);
-      } else if (Session.get('mouseSelect') == 'right') {
-        s.text("Please select the right\nmost boundary", 25, 25);
-      } else if (Session.get('mouseSelect') == 'top') {
-        s.text("Please select the top\nmost boundary", 25, 25);
-      } else if (Session.get('mouseSelect') == 'bottom') {
-        s.text("Please select the bottom\nmost boundary", 25, 25);
-      }
-    }
-
-    function drawCalibrationLines(s) {
-      var calibrationCount = 0;
-      if (calibrationPoints.left.x >= 0) {
-        drawVerticalLine(s, calibrationPoints.left.x);
-        calibrationCount += 1;
-      }
-      if (calibrationPoints.right.x >= 0) {
-        drawVerticalLine(s, calibrationPoints.right.x);
-        calibrationCount += 1;
-      }
-      if (calibrationPoints.top.x >= 0) {
-        drawHorizontalLine(s, calibrationPoints.top.y);
-        calibrationCount += 1;
-      }
-      if (calibrationPoints.bottom.x >= 0) {
-        drawHorizontalLine(s, calibrationPoints.bottom.y);
-        calibrationCount += 1;
-      }
-      //displayInstructions(s, calibrationCount);
-      return calibrationCount;
-    }
-
-    function drawHorizontalLine(s, y) {
-      s.strokeWeight(5);
-      s.stroke('#ff7361');
-      var xStart = 0;
-      var xEnd = s.windowWidth;
-
-      if (calibrationPoints.left.x >= 0) {
-        xStart = calibrationPoints.left.x;
-      }
-
-      if (calibrationPoints.right.x >= 0) {
-        xEnd = calibrationPoints.right.x;
-      }
-      s.line(xStart, y, xEnd, y);
-      
-      s.noStroke();
-      s.strokeWeight(1);
-    }
-
-    function drawVerticalLine(s, x) {
-      s.strokeWeight(5);
-      s.stroke('#ff7361');
-      var yStart = 0;
-      var yEnd = s.windowHeight;
-
-      if (calibrationPoints.top.y >= 0) {
-        yStart = calibrationPoints.top.y;
-      }
-
-      if (calibrationPoints.bottom.y >= 0) {
-        yEnd = calibrationPoints.bottom.y;
-      }
-      s.line(x, yStart, x, yEnd);
-
-      s.noStroke();
-      s.strokeWeight(1);
-    }
-
-    function drawRobotSetPoint(s, x, y) {
-      //s.ellipse(x, y, 10, 10);
-      s.push();
-      s.fill('#ff7361');
-      s.translate(x, y);
-      s.rotate(s.radians(45));
-      s.rect(0,0,6,40);
-      s.rotate(s.radians(90));
-      s.rect(0,0,6,40);
-      s.pop();
-    }
-
-    function drawRobot(s, x, y, th) {
-      s.push();
-      s.fill('#ff7361');
-      s.translate(x, y);
-      s.rotate(s.radians(-1 * th));
-      s.rect(0,5,20,15);
-      s.arc(0,0,20, 25, s.PI, 0);
-      s.fill('#000');
-      s.rect(-12, 4, 4, 10);
-      s.rect(12, 4, 4, 10);
-      s.pop();
     }
 
     s.mouseClicked = function() {
@@ -193,8 +100,12 @@ var sketch1 = function (s) {
             Session.set('calibrateAll', false);
           }
           $('#calibrateBottom').val('y = ' + s.mouseY);
-        } else if (Session.get('mouseSelect') == 'no_select' && all_calibrated) {
-          Session.set('sendCoords', true);
+        } else if (Session.get('mouseSelect') == 'init_pos') {
+           console.log('wei going here');
+           setRobotInitPos.x = s.mouseX;
+           setRobotInitPos.y = s.mouseY;
+        } else if (Session.get('mouseSelect') == 'send_coords') {
+          //Session.set('sendCoords', true);
           setRobotPoints.x = s.mouseX;
           setRobotPoints.y = s.mouseY;
         }
@@ -207,9 +118,14 @@ var sketch1 = function (s) {
     }
 };
 
-
 Template.landing.onRendered(function() {
     Session.set('mouseSelect', 'no_select');
     $('.ui.accordion').accordion();
+		$("#headingInput").mousemove(function () {
+			$("#headingVal").text($("#headingInput").val())
+      setRobotInitPos.th = parseInt($('#headingInput').val());
+      Session.set('initPosCoords', setRobotInitPos);
+		});
+
     new p5(sketch1, "sketch1");
 })
