@@ -21,9 +21,7 @@ var sketch1 = function (s) {
       s.noStroke();
     };
 
-
     s.draw = function () {
-			wei('hello');
       s.background(255);
       s.image(map, $('#sketch1').width() / 2 - 2.5 * imageScale / 2, 0, 2.5 * imageScale, 4 * imageScale);
 			var arrowDegrees;
@@ -49,7 +47,7 @@ var sketch1 = function (s) {
  					if (setRobotPoints.x >= 0 && setRobotPoints.y >= 0) {
           	drawRobotSetPoint(s, setRobotPoints.x, setRobotPoints.y);
         	}
-				} else {2
+				} else {
         	Session.set('runtimeStatus', "All calibration points are set!\nPlease set the starting coordinates and heading of the robot");
 					if (!openedSetRobotAccordion) {
 						openedSetRobotAccordion = true;
@@ -101,11 +99,10 @@ var sketch1 = function (s) {
           }
           $('#calibrateBottom').val('y = ' + s.mouseY);
         } else if (Session.get('mouseSelect') == 'init_pos') {
-           console.log('wei going here');
            setRobotInitPos.x = s.mouseX;
            setRobotInitPos.y = s.mouseY;
         } else if (Session.get('mouseSelect') == 'send_coords') {
-          //Session.set('sendCoords', true);
+					Session.set('sendCoords', true);
           setRobotPoints.x = s.mouseX;
           setRobotPoints.y = s.mouseY;
         }

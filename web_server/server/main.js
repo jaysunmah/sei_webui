@@ -5,7 +5,7 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    'initRobot': function(x, y, th){
+    'initRobot': function(x, y, th) {
       var options = {
 				data: {
         	'x': x,
@@ -13,8 +13,12 @@ Meteor.methods({
 					'th': th,
 				}
       }
-			console.log(options);
-      HTTP.post('http://127.0.0.1:5000/init', options)
-    }
+			console.log('Initializing robot at ', options);
+			//HTTP.post('http://127.0.0.1:5000/init', options)
+    },
+		'getPose': function() {
+			this.unblock();
+			return HTTP.get('http://127.0.0.1:5000/location');
+		}
 });
 

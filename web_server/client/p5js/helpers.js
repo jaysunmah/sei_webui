@@ -1,5 +1,29 @@
-wei = function(hello) {
-  //console.log(hello);
+var leftmostX = 490.04;
+var rightmostX = 517.32;
+var topmostY = 433.96;
+var bottommostY = 394.88;
+
+canvasToWorld = function(x, y) {
+	if (Session.get('calibrationPoints')) {
+		var canvasLeftX = Session.get('calibrationPoints').left.x;
+		var canvasRightX = Session.get('calibrationPoints').right.x;
+		var xProportion = (x - canvasLeftX) / (canvasRightX - canvasLeftX);
+		var xCoord = leftmostX + (rightmostX - leftmostX) * xProportion;
+		var xResult = Number((xCoord).toFixed(5));
+
+		var canvasTopY = Session.get('calibrationPoints').top.y;
+		var canvasBottomY = Session.get('calibrationPoints').bottom.y;
+		var yProportion = (y - canvasTopY) / (canvasBottomY - canvasTopY);
+		var yCoord = bottommostY + (topmostY - bottommostY) * (1 - yProportion);
+		var yResult = Number((yCoord).toFixed(5));
+
+		return {x: xResult, y: yResult};
+	} else {
+		return {x: -1, y: -1};
+	}
+}
+worldToCanvas = function(x, y) {
+	return {x: -1, y: -1};
 }
 
 displayInstructions = function(s, count) {
