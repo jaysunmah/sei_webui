@@ -10,3 +10,10 @@ Once setup, (the current turtlebot SHOULD have the latest meteor version already
 meteor
 ```
 in the terminal (make sure you are in the /web_server directory)
+
+The project also heavily uses a javascript drawing library called P5JS which is used to handle user mouse interactions as well as animating (soon) the robot's movements: p5js.org
+
+Third, the website uses a css library called semantic ui: http://semantic-ui.com/
+It's just another bootstrap library but I really liked using this from previous projects so I decided to use this one here as well.
+
+When meteor sets up the server, just go to a web browser and go to 127.0.0.1:3000/ or localhost:3000/
