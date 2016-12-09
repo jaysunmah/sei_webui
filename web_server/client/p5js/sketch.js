@@ -12,7 +12,7 @@ var sketch1 = function (s) {
 		var openedSetRobotAccordion = false;
 
     s.preload = function() {
-      map = s.loadImage("images/sei_layout.png");
+			map = s.loadImage("images/sei_layout.png");
     }
 
     s.setup = function () {
