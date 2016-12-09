@@ -4,4 +4,9 @@ Ajay and I were able to get our POST and GET requests working properly, however 
 TODO: Fix these race conditions, then add in code for drawing the robot based on the GET location results.
 
 Set up:
-
+Our dependencies will mainly lie in downloading Meteor JS: https://www.meteor.com/
+Once setup, (the current turtlebot SHOULD have the latest meteor version already installed), simply run
+```
+meteor
+```
+in the terminal (make sure you are in the /web_server directory)
