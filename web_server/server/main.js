@@ -5,14 +5,16 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    'sendCoords': function(x, y){
-      console.log('wei', x, y);
-      //HTTP.get('http://127.0.0.1:5000/wei');
+    'initRobot': function(x, y, th){
       var options = {
-        'x': x,
-        'y': y,
+				data: {
+        	'x': x,
+        	'y': y,
+					'th': th,
+				}
       }
-      HTTP.post('http://127.0.0.1:5000/wei', options)
+			console.log(options);
+      HTTP.post('http://127.0.0.1:5000/init', options)
     }
 });
 
