@@ -1,5 +1,5 @@
 {
-  "name": "web_server",
+  "name": "photo_talk",
   "private": true,
   "scripts": {
     "start": "meteor run"
