@@ -3,6 +3,15 @@ var rightmostX = 517.32;
 var topmostY = 433.96;
 var bottommostY = 394.88;
 
+//returns true if the user is currently trying to calibrate points
+isCalibratingCoordinates = function() {
+	var mouseStatus = Session.get('mouseSelect');
+	return (mouseStatus == 'left' ||
+					mouseStatus == 'right' ||
+					mouseStatus == 'top' ||
+					mouseStatus == 'bottom')
+}
+
 canvasToWorld = function(x, y) {
 	if (Session.get('calibrationPoints')) {
 		var canvasLeftX = Session.get('calibrationPoints').left.x;
@@ -75,7 +84,7 @@ drawHorizontalLine = function(s, y) {
     xEnd = calibrationPoints.right.x;
   }
   s.line(xStart, y, xEnd, y);
-  
+
   s.noStroke();
   s.strokeWeight(1);
 }
@@ -138,4 +147,3 @@ drawRobot = function(s, x, y, th) {
   s.rect(12, 4, 4, 10);
   s.pop();
 }
-

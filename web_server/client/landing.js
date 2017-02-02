@@ -6,33 +6,8 @@ Template.landing.events({
   'change #headingInput' (event) {
     Session.set('initializedHeading', true);
   },
-  'click #calibrateLeftButton' (event) {
-    if (Session.get('mouseSelect') == 'left') {
-      Session.set('mouseSelect', 'no_select');
-    } else {
-      Session.set('mouseSelect', 'left');
-    }
-  },
-  'click #calibrateRightButton' (event) {
-    if (Session.get('mouseSelect') == 'right') {
-      Session.set('mouseSelect', 'no_select');
-    } else {
-      Session.set('mouseSelect', 'right');
-    }
-  },
-  'click #calibrateTopButton' (event) {
-    if (Session.get('mouseSelect') == 'top') {
-      Session.set('mouseSelect', 'no_select');
-    } else {
-      Session.set('mouseSelect', 'top');
-    }
-  },
-  'click #calibrateBottomButton' (event) {
-    if (Session.get('mouseSelect') == 'bottom') {
-      Session.set('mouseSelect', 'no_select');
-    } else {
-      Session.set('mouseSelect', 'bottom');
-    }
+  'click .calibrate' (event) {
+    calibrationEventHandler(event.currentTarget.id);
   },
   'click #calibrateAll' (event) {
     if (Session.get('calibrateAll')) {
@@ -65,47 +40,14 @@ Template.landing.events({
     }
   },
   'click #initRos' (event) {
-    // 'ws://128.237.178.40:9090'
     var newUrl = 'ws://' + $('#ipAddress').val() + ':9090';
-    
-    ros = new ROSLIB.Ros({
-        url : newUrl
-    });
-
-    ros.on('connection',function() {
-      console.log('Connected to websocket server.');
-    });
-
-    ros.on('error',function() {
-      console.log('Error: ',error);
-    });
-    ros.on('close',function() {
-      console.log('Closed');
-    });
-
-    listener = new ROSLIB.Topic({
-      ros: ros,
-      name : '/helloBridge',
-      messageType : 'std_msgs/String'
-    });
-    listener.subscribe(function(message) {
-      console.log('Message: ' + message.data);
-      document.getElementById("hed").innerHTML = message.data;
-    });
-
-    test = new ROSLIB.Topic({
-      ros: ros,
-      name: '/jason',
-      messageType: 'std_msgs/String'
-    });
-
-    t = new ROSLIB.Message({
-      data: '123',
-    });
-
-    test.publish(t);
-    console.log('sent');
+    rosConnect(newUrl);
   },
+  'click #sendRosMessage' (event) {
+    var data = $('#rosMessage').val();
+    console.log(data);
+    rosSendMessage(data);
+  }
 });
 
 Template.landing.helpers({
@@ -116,26 +58,8 @@ Template.landing.helpers({
     var coords = Session.get('mouseCoords') || {x: -1, y: -1};
 		return canvasToWorld(coords.x, coords.y);
   },
-  blueLeft: function () {
-    if (Session.get('mouseSelect') == 'left') {
-      return 'blue';
-    }
-    return '';
-  },
-  blueRight: function () {
-    if (Session.get('mouseSelect') == 'right') {
-      return 'blue';
-    }
-    return '';
-  },
-  blueTop: function () {
-    if (Session.get('mouseSelect') == 'top') {
-      return 'blue';
-    }
-    return '';
-  },
-  blueBottom: function () {
-    if (Session.get('mouseSelect') == 'bottom') {
+  activated: function(id) {
+    if (Session.get('mouseSelect') == id) {
       return 'blue';
     }
     return '';
@@ -164,5 +88,12 @@ Template.landing.helpers({
       return 'blue';
     }
     return '';
-  }
+  },
+  rosConnectionStatus: function() {
+    console.log('wei');
+    if (Session.get('rosConnectionStatus')) {
+      return 'green';
+    }
+    return 'red';
+  },
 });

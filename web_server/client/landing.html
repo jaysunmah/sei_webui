@@ -6,11 +6,20 @@
         <div class="five wide column">
           <div class="ui segment">
             <p>
-              Turtlebot IP Address:
+              Turtlebot IP Address: <a class="ui {{rosConnectionStatus}} empty circular label"></a>
             </p>
             <div class="ui action fluid input">
               <input type="text" placeholder="127.237.0.0" id="ipAddress">
               <button class="ui button" id="initRos">Set</button>
+            </div>
+          </div>
+          <div class="ui segment">
+            <p>
+              Testing purposes only!
+            </p>
+            <div class="ui action fluid input">
+              <input type="text" placeholder="messge" id="rosMessage">
+              <button class="ui button" id="sendRosMessage">Send</button>
             </div>
           </div>
 					<div class="ui segment">
@@ -30,7 +39,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Left:</div>
 											<input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
-											<button class="ui {{blueLeft}} button" id="calibrateLeftButton">Calibrate</button>
+											<button class="ui {{activated 'left'}} calibrate button" id="calibrateLeft">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -39,7 +48,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Right:</div>
 											<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
-											<button class="ui {{blueRight}} button" id="calibrateRightButton">Calibrate</button>
+											<button class="ui {{activated 'right'}} calibrate button" id="calibrateRight">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -48,7 +57,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Top:</div>
 											<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
-											<button class="ui {{blueTop}} button" id="calibrateTopButton">Calibrate</button>
+											<button class="ui {{activated 'top'}} calibrate button" id="calibrateTop">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -57,7 +66,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Bottom:</div>
 											<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
-											<button class="ui {{blueBottom}} button" id="calibrateBottomButton">Calibrate</button>
+											<button class="ui {{activated 'bottom'}} calibrate button" id="calibrateBottom">Calibrate</button>
 										</div>
 									</div>
 								</div>
