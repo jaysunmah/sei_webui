@@ -4,6 +4,15 @@
     <div class="ui fluid stackable grid">
       <div class="row">
         <div class="five wide column">
+          <div class="ui segment">
+            <p>
+              Turtlebot IP Address:
+            </p>
+            <div class="ui action fluid input">
+              <input type="text" placeholder="127.237.0.0" id="ipAddress">
+              <button class="ui button" id="initRos">Set</button>
+            </div>
+          </div>
 					<div class="ui segment">
 						{{runtimeStatus}}
 					</div>

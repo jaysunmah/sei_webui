@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
   // code to run on server at startup
+  Meteor.setInterval(function() {
+    console.log("Pinging heroku app...")
+    HTTP.get("https://seiturtle.herokuapp.com");
+  }, 300000);
 });
 
 Meteor.methods({
@@ -21,4 +25,3 @@ Meteor.methods({
 			return HTTP.get('http://127.0.0.1:5000/location');
 		}
 });
-

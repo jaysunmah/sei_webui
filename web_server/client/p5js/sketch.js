@@ -1,7 +1,4 @@
-var ros;
-var listener;
-var test;
-var t;
+
 
 var sketch1 = function (s) {
     var x = 0;
@@ -130,43 +127,5 @@ Template.landing.onRendered(function() {
 		});
 
     new p5(sketch1, "sketch1");
-
-    ros = new ROSLIB.Ros({
-        url : 'ws://128.237.178.40:9090'
-        });
-
-    ros.on('connection',function() {
-        console.log('Connected to websocket server.');
-        });
-
-    ros.on('error',function() {
-        console.log('Error: ',error);
-        });
-    ros.on('close',function() {
-        console.log('Closed');
-        });
-
-    listener = new ROSLIB.Topic({
-        ros: ros,
-        name : '/helloBridge',
-        messageType : 'std_msgs/String'
-        });
-    listener.subscribe(function(message) {
-        console.log('Message: ' + message.data);
-        document.getElementById("hed").innerHTML = message.data;
-        });
-
-    test = new ROSLIB.Topic({
-        ros: ros,
-        name: '/jason',
-        messageType: 'std_msgs/String'
-        });
-
-    t = new ROSLIB.Message({
-        data: '123',
-        });
-
-    test.publish(t);
-    console.log('sent');
 
 })

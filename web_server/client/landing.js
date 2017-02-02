@@ -64,6 +64,48 @@ Template.landing.events({
 			}
     }
   },
+  'click #initRos' (event) {
+    // 'ws://128.237.178.40:9090'
+    var newUrl = 'ws://' + $('#ipAddress').val() + ':9090';
+    
+    ros = new ROSLIB.Ros({
+        url : newUrl
+    });
+
+    ros.on('connection',function() {
+      console.log('Connected to websocket server.');
+    });
+
+    ros.on('error',function() {
+      console.log('Error: ',error);
+    });
+    ros.on('close',function() {
+      console.log('Closed');
+    });
+
+    listener = new ROSLIB.Topic({
+      ros: ros,
+      name : '/helloBridge',
+      messageType : 'std_msgs/String'
+    });
+    listener.subscribe(function(message) {
+      console.log('Message: ' + message.data);
+      document.getElementById("hed").innerHTML = message.data;
+    });
+
+    test = new ROSLIB.Topic({
+      ros: ros,
+      name: '/jason',
+      messageType: 'std_msgs/String'
+    });
+
+    t = new ROSLIB.Message({
+      data: '123',
+    });
+
+    test.publish(t);
+    console.log('sent');
+  },
 });
 
 Template.landing.helpers({
