@@ -54,13 +54,18 @@ rosConnect = function(ip) {
 
   listener = new ROSLIB.Topic({
     ros: ros,
-    name : '/helloBridge',
-    messageType : 'std_msgs/String'
+    name : '/localization',
+    messageType : 'cgr_localization/LocalizationMsg'
   });
 
   listener.subscribe(function(message) {
-    console.log('Message: ' + message.data);
-    Session.set('runtimeStatus', message.data);
+    // console.log(message);
+    Session.set('rosTurtlePos', {
+      x: message.x,
+      y: message.y,
+      th: message.angle,
+    })
+    // Session.set('runtimeStatus', message.data);
   });
 
   test = new ROSLIB.Topic({

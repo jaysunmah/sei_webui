@@ -96,4 +96,7 @@ Template.landing.helpers({
     }
     return 'red';
   },
+  rosTurtlePos: function() {
+    return Session.get('rosTurtlePos');
+  }
 });

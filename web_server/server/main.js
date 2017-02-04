@@ -5,6 +5,7 @@ Meteor.startup(() => {
   Meteor.setInterval(function() {
     console.log("Pinging heroku app...")
     HTTP.get("https://seiturtle.herokuapp.com");
+    HTTP.get("https://sheltered-refuge-14380.herokuapp.com/");
   }, 300000);
 });
 
