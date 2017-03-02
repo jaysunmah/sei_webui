@@ -8,7 +8,7 @@ Template.landing.events({
   },
   'click .calibrate' (event) {
     calibrationEventHandler(event.currentTarget.id);
-  },
+  }, //Toggles calibration statuses
   'click #calibrateAll' (event) {
     if (Session.get('calibrateAll')) {
       Session.set('calibrateAll', false);
@@ -88,9 +88,8 @@ Template.landing.helpers({
       return 'blue';
     }
     return '';
-  },
+  }, //Get Ros connection status
   rosConnectionStatus: function() {
-    console.log('wei');
     if (Session.get('rosConnectionStatus')) {
       return 'green';
     }

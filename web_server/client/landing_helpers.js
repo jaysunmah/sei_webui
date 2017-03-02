@@ -1,3 +1,7 @@
+//These are the helper functions used on our landing page. Updated as of March 2nd, 2017.
+//Notable functions in here:
+//1) Ros library helper functions
+
 var ros;
 var listener;
 var test;
@@ -59,13 +63,15 @@ rosConnect = function(ip) {
   });
 
   listener.subscribe(function(message) {
-    // console.log(message);
-    Session.set('rosTurtlePos', {
+    data = {
       x: message.x,
       y: message.y,
       th: message.angle,
-    })
-    // Session.set('runtimeStatus', message.data);
+    }
+    //set the Session variable for ui purposes only
+    Session.set('rosTurtlePos', data);
+    //Call the meteor server to update the new position
+    Meteor.call("rosTurtlePosHandler", data);
   });
 
   test = new ROSLIB.Topic({
