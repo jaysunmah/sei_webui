@@ -1,4 +1,4 @@
-calibrationPoints = {
+calibration_points = {
 	left: {
 		x: -1,
 		y: -1
@@ -14,12 +14,12 @@ calibrationPoints = {
 	}
 }
 
-setRobotPoints = {
+send_robot_points = {
   x: -1,
   y: -1,
 }
 
-setRobotInitPos = {
+set_robot_init_pose = {
 	x: -1,
 	y: -1,
 	th: -1,

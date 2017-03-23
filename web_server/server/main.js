@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
-  Meteor.Coordinates = new Mongo.Collection('coordinates');
+  // Meteor.Coordinates = new Mongo.Collection('coordinates');
 });
 
 Meteor.methods({

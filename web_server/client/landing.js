@@ -27,6 +27,12 @@ Template.landing.events({
 			Meteor.call('getPose', {}, cb);
 		}
   },
+  'click #initRobotPos' (event) {
+    if (Session.get('initializedPose') && Session.get('initializedHeading')) {
+      Session.set('mouseSelect', 'init_pos');
+      Session.set('initializedPose', false);
+    }
+  },
   'click #confirmInitialPose' (event) {
     if (Session.get('initializedPosition') && Session.get('initializedHeading')) {
       $('.ui.accordion').accordion('open', 2);

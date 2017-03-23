@@ -1,3 +1,5 @@
+var removal_timeout = 5000; //time in milliseconds for inactive data to persist
+
 //this is a local storage which holds the timeout_ids from
 //specific ip_addresses.
 //motivation for this is for the web ui to detect when a particular
@@ -9,6 +11,6 @@ timeout_ids = {};
 timeoutRemove = function(ip_address) {
   disconnect_id = Meteor.setTimeout(function() {
     Meteor.Coordinates.remove({ip: ip_address});
-  }, 5000);
+  }, removal_timeout);
   return disconnect_id;
 }

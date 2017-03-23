@@ -7,9 +7,18 @@ isCalibratingCoordinates = function() {
 					mouseStatus == 'bottom')
 }
 
-
-worldToCanvas = function(x, y) {
-	return {x: -1, y: -1};
+advanceNextMouseSelect = function() {
+	var mouseStatus = Session.get('mouseSelect');
+	if (mouseStatus == 'left') {
+		Session.set('mouseSelect', 'top');
+	} else if (mouseStatus == 'right') {
+		Session.set('mouseSelect', 'bottom');
+	} else if (mouseStatus == 'top') {
+		Session.set('mouseSelect', 'right');
+	} else if (mouseStatus == 'bottom') {
+		Session.set('mouseSelect', 'no_select');
+		Session.set('calibrateAll', false);
+	}
 }
 
 displayInstructions = function(s, count) {
@@ -26,25 +35,25 @@ displayInstructions = function(s, count) {
 }
 
 drawCalibrationLines = function(s) {
-  var calibrationCount = 0;
-  if (calibrationPoints.left.x >= 0) {
-    drawVerticalLine(s, calibrationPoints.left.x);
-    calibrationCount += 1;
+  var calibration_count = 0;
+  if (calibration_points.left.x >= 0) {
+    drawVerticalLine(s, calibration_points.left.x);
+    calibration_count += 1;
   }
-  if (calibrationPoints.right.x >= 0) {
-    drawVerticalLine(s, calibrationPoints.right.x);
-    calibrationCount += 1;
+  if (calibration_points.right.x >= 0) {
+    drawVerticalLine(s, calibration_points.right.x);
+    calibration_count += 1;
   }
-  if (calibrationPoints.top.x >= 0) {
-    drawHorizontalLine(s, calibrationPoints.top.y);
-    calibrationCount += 1;
+  if (calibration_points.top.x >= 0) {
+    drawHorizontalLine(s, calibration_points.top.y);
+    calibration_count += 1;
   }
-  if (calibrationPoints.bottom.x >= 0) {
-    drawHorizontalLine(s, calibrationPoints.bottom.y);
-    calibrationCount += 1;
+  if (calibration_points.bottom.x >= 0) {
+    drawHorizontalLine(s, calibration_points.bottom.y);
+    calibration_count += 1;
   }
-  //displayInstructions(s, calibrationCount);
-  return calibrationCount;
+  //displayInstructions(s, calibration_count);
+  return calibration_count;
 }
 
 drawHorizontalLine = function(s, y) {
@@ -53,12 +62,12 @@ drawHorizontalLine = function(s, y) {
   var xStart = 0;
   var xEnd = s.windowWidth;
 
-  if (calibrationPoints.left.x >= 0) {
-    xStart = calibrationPoints.left.x;
+  if (calibration_points.left.x >= 0) {
+    xStart = calibration_points.left.x;
   }
 
-  if (calibrationPoints.right.x >= 0) {
-    xEnd = calibrationPoints.right.x;
+  if (calibration_points.right.x >= 0) {
+    xEnd = calibration_points.right.x;
   }
   s.line(xStart, y, xEnd, y);
 
@@ -72,12 +81,12 @@ drawVerticalLine = function(s, x) {
   var yStart = 0;
   var yEnd = s.windowHeight;
 
-  if (calibrationPoints.top.y >= 0) {
-    yStart = calibrationPoints.top.y;
+  if (calibration_points.top.y >= 0) {
+    yStart = calibration_points.top.y;
   }
 
-  if (calibrationPoints.bottom.y >= 0) {
-    yEnd = calibrationPoints.bottom.y;
+  if (calibration_points.bottom.y >= 0) {
+    yEnd = calibration_points.bottom.y;
   }
   s.line(x, yStart, x, yEnd);
 
