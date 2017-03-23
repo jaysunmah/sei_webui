@@ -21,6 +21,13 @@
               <input type="text" placeholder="messge" id="rosMessage">
               <button class="ui button" id="sendRosMessage">Send</button>
             </div>
+            <div>
+              {{#each testRosCoords}}
+                <p>
+                  {{this.ros_coords.x}}
+                </p>
+              {{/each}}
+            </div>
           </div>
 					<div class="ui segment">
 						{{runtimeStatus}}
@@ -31,7 +38,7 @@
 							Grid alignment settings:
 						</div>
 						<div class="active content" id="calibrationContainer">
-							<div class="ui fluid {{blueCalibrateAll}} button" id="calibrateAll">Calibrate All Edges</div>
+							<div class="ui fluid {{activated 'calibrateAll'}} button" id="calibrateAll">Calibrate All Edges</div>
 							<div class="ui hidden divider"></div>
 							<div class="ui grid">
 								<div class="row">
@@ -39,7 +46,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Left:</div>
 											<input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
-											<button class="ui {{activated 'left'}} calibrate button" id="calibrateLeft">Calibrate</button>
+											<button class="ui {{activated 'left' 'mouseSelect'}} calibrate button" id="calibrateLeft">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -48,7 +55,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Right:</div>
 											<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
-											<button class="ui {{activated 'right'}} calibrate button" id="calibrateRight">Calibrate</button>
+											<button class="ui {{activated 'right' 'mouseSelect'}} calibrate button" id="calibrateRight">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -57,7 +64,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Top:</div>
 											<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
-											<button class="ui {{activated 'top'}} calibrate button" id="calibrateTop">Calibrate</button>
+											<button class="ui {{activated 'top' 'mouseSelect'}} calibrate button" id="calibrateTop">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -66,7 +73,7 @@
 										<div class="ui labeled action fluid input">
 											<div class="ui basic label">Bottom:</div>
 											<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
-											<button class="ui {{activated 'bottom'}} calibrate button" id="calibrateBottom">Calibrate</button>
+											<button class="ui {{activated 'bottom' 'mouseSelect'}} calibrate button" id="calibrateBottom">Calibrate</button>
 										</div>
 									</div>
 								</div>
@@ -84,7 +91,7 @@
 							<div class="ui slider fluid range">
 								<input type="range" id="headingInput" min="0" max="360" value="0" style="width: 100%;"/>
 							</div>
-            	<div class="ui fluid {{blueInitPos}} button" id="confirmInitialPose">Set Initial Robot Pose</div>
+            	<div class="ui fluid {{activated 'initPos'}} button" id="confirmInitialPose">Set Initial Robot Pose</div>
 						</div>
 
 						<div class="title">
@@ -94,7 +101,7 @@
 						<div class="content" id="movementContainer">
 							<h4>Selected coordinates:</h4>
             	<p>({{selected.x}},{{selected.y}})</p>
-            	<div class="ui fluid {{blueGo}} button" id="sendRobot">Go!</div>
+            	<div class="ui fluid {{activated 'sendCoords'}} button" id="sendRobot">Go!</div>
 						</div>
 
 						<div class="title">

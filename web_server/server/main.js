@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 Meteor.startup(() => {
+  Meteor.Coordinates = new Mongo.Collection('coordinates');
 });
 
 Meteor.methods({
@@ -15,10 +16,10 @@ Meteor.methods({
       rosCoords = options.data;
 			console.log('Initializing robot at ', options);
 			//HTTP.post('http://127.0.0.1:5000/init', options)
-    },
+    }, //I don't think we need this funciton anymore? Investigate this later
 		'getPose': function() {
 			this.unblock();
-			return HTTP.get('http://127.0.0.1:5000/location');
+      return rosCoords;
 		},
     'rosTurtlePosHandler': function(data) {
       console.log("ros Coords", rosCoords);

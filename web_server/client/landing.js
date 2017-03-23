@@ -58,22 +58,19 @@ Template.landing.helpers({
     var coords = Session.get('mouseCoords') || {x: -1, y: -1};
 		return canvasToWorld(coords.x, coords.y);
   },
-  activated: function(id) {
-    if (Session.get('mouseSelect') == id) {
-      return 'blue';
+  activated: function(id, type) {
+    if (type == "mouseSelect") {
+      if (Session.get('mouseSelect') == id) {
+        return 'blue';
+      }
+    } else {
+      if ((id == "calibrateAll" && Session.get("calibrateAll")) ||
+         (id == "sendCoords" && Session.get("sendCoords")) ||
+         (id == "initPos" && Session.get('initializedPosition') && Session.get('initializedHeading'))) {
+           return 'blue';
+      }
     }
-    return '';
-  },
-  blueCalibrateAll: function () {
-    if (Session.get('calibrateAll')) {
-      return 'blue';
-    }
-    return '';
-  },
-  blueGo: function () {
-    if (Session.get('sendCoords')) {
-      return 'blue'
-    }
+
     return '';
   },
   calibrationPoints: function () {
@@ -82,12 +79,6 @@ Template.landing.helpers({
   initCoords: function() {
     var coords = Session.get('initPosCoords') || {x: -1, y: -1};
 		return canvasToWorld(coords.x, coords.y);
-  },
-  blueInitPos: function() {
-    if (Session.get('initializedPosition') && Session.get('initializedHeading')) {
-      return 'blue';
-    }
-    return '';
   }, //Get Ros connection status
   rosConnectionStatus: function() {
     if (Session.get('rosConnectionStatus')) {
@@ -97,5 +88,9 @@ Template.landing.helpers({
   },
   rosTurtlePos: function() {
     return Session.get('rosTurtlePos');
+  },
+  //TODO: REMOVE THIS LATER
+  testRosCoords: function() {
+    return data = Meteor.Coordinates.find({}).fetch();
   }
 });
