@@ -1,140 +1,115 @@
 <template name="landing">
-  <div class="ui container">
-    <div class="ui hidden divider"></div>
-    <div class="ui fluid stackable grid">
-      <div class="row">
-        <div class="five wide column">
-          <div class="ui segment">
-            <p>
-              Turtlebot IP Address: <a class="ui {{rosConnectionStatus}} empty circular label"></a>
-            </p>
-            <div class="ui action fluid input">
-              <input type="text" placeholder="127.237.0.0" id="ipAddress">
-              <button class="ui button" id="initRos">Set</button>
-            </div>
-          </div>
-          <div class="ui segment">
-            <p>
-              Testing purposes only!
-            </p>
-            <div class="ui action fluid input">
-              <input type="text" placeholder="messge" id="rosMessage">
-              <button class="ui button" id="sendRosMessage">Send</button>
-            </div>
-            <div>
-              {{#each testRosCoords}}
-                <p>
-                  {{this.ros_coords.x}}
-                </p>
-              {{/each}}
-            </div>
-          </div>
-					<div class="ui segment">
-						{{runtimeStatus}}
+  <!-- <div class="ui container"> -->
+  <div class="ui fluid stackable grid">
+    <div class="row">
+      <div class="five wide column">
+				<div class="ui segment">
+          <h4>Runtime status:</h4>
+					{{runtimeStatus}}
+				</div>
+				<div class="ui styled accordion">
+					<div class="active title">
+						<i class="dropdown icon"></i>
+						Grid alignment settings:
 					</div>
-					<div class="ui styled accordion">
-						<div class="active title">
-							<i class="dropdown icon"></i>
-							Grid alignment settings:
-						</div>
-						<div class="active content" id="calibrationContainer">
-							<div class="ui fluid {{activated 'calibrateAll'}} button" id="calibrateAll">Calibrate All Edges</div>
-							<div class="ui hidden divider"></div>
-							<div class="ui grid">
-								<div class="row">
-									<div class="sixteen wide column">
-										<div class="ui labeled action fluid input">
-											<div class="ui basic label">Left:</div>
-											<input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
-											<button class="ui {{activated 'left' 'mouseSelect'}} calibrate button" id="calibrateLeft">Calibrate</button>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="sixteen wide column">
-										<div class="ui labeled action fluid input">
-											<div class="ui basic label">Right:</div>
-											<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
-											<button class="ui {{activated 'right' 'mouseSelect'}} calibrate button" id="calibrateRight">Calibrate</button>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="sixteen wide column">
-										<div class="ui labeled action fluid input">
-											<div class="ui basic label">Top:</div>
-											<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
-											<button class="ui {{activated 'top' 'mouseSelect'}} calibrate button" id="calibrateTop">Calibrate</button>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="sixteen wide column">
-										<div class="ui labeled action fluid input">
-											<div class="ui basic label">Bottom:</div>
-											<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
-											<button class="ui {{activated 'bottom' 'mouseSelect'}} calibrate button" id="calibrateBottom">Calibrate</button>
-										</div>
+					<div class="active content" id="calibrationContainer">
+						<div class="ui fluid {{activated 'calibrateAll'}} button" id="calibrateAll">Calibrate All Edges</div>
+						<div class="ui hidden divider"></div>
+						<div class="ui grid">
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui labeled action fluid input">
+										<div class="ui basic label">Left:</div>
+										<input type="text" placeholder="Left" size=5 id="calibrateLeft" readonly>
+										<button class="ui {{activated 'left' 'mouseSelect'}} calibrate button" id="calibrateLeft">Calibrate</button>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<div class="title" id="initRobotPos">
-							<i class="dropdown icon"></i>
-							Set robot coordinates
-						</div>
-						<div class="content" id="movementContainer">
-							<h4>Selected coordinates:</h4>
-            	<p>({{initCoords.x}},{{initCoords.y}})</p>
-							<h4>Heading: <span style="font-weight: normal;" id="headingVal">0</span></h4>
-							<div class="ui slider fluid range">
-								<input type="range" id="headingInput" min="0" max="360" value="0" style="width: 100%;"/>
-							</div>
-            	<div class="ui fluid {{activated 'initPos'}} button" id="confirmInitialPose">Set Initial Robot Pose</div>
-						</div>
-
-						<div class="title">
-							<i class="dropdown icon"></i>
-							Movements:
-						</div>
-						<div class="content" id="movementContainer">
-							<h4>Selected coordinates:</h4>
-            	<p>({{selected.x}},{{selected.y}})</p>
-            	<div class="ui fluid {{activated 'sendCoords'}} button" id="sendRobot">Go!</div>
-						</div>
-
-						<div class="title">
-							<i class="dropdown icon"></i>
-							Turtle Bot Status:
-						</div>
-						<div class="content">
-							<div class="ui grid">
-								<div class="row">
-									<div class="eight wide column">
-										<p>Position (x): {{rosTurtlePos.x}}</p>
-										<p>Position (y): {{rosTurtlePos.y}}</p>
-									</div>
-									<div class="eight wide column">
-										<p>Heading (th): {{rosTurtlePos.th}}</p>
-										<p>Message:</p>
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui labeled action fluid input">
+										<div class="ui basic label">Right:</div>
+										<input type="text" placeholder="Right" size=5 id="calibrateRight" readonly>
+										<button class="ui {{activated 'right' 'mouseSelect'}} calibrate button" id="calibrateRight">Calibrate</button>
 									</div>
 								</div>
-								<div class="row">
-									<div class="sixteen wide column">
-										<div class="ui segment">
-											status!
-										</div>
+							</div>
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui labeled action fluid input">
+										<div class="ui basic label">Top:</div>
+										<input type="text" placeholder="Top" size=5 id="calibrateTop" readonly>
+										<button class="ui {{activated 'top' 'mouseSelect'}} calibrate button" id="calibrateTop">Calibrate</button>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui labeled action fluid input">
+										<div class="ui basic label">Bottom:</div>
+										<input type="text" placeholder="Bottom" size=5 id="calibrateBottom" readonly>
+										<button class="ui {{activated 'bottom' 'mouseSelect'}} calibrate button" id="calibrateBottom">Calibrate</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-        </div>
-        <div class="eleven wide column">
-          <div id="sketch1"></div>
-        </div>
+
+					<div class="title" id="initRobotPos">
+						<i class="dropdown icon"></i>
+						Set robot coordinates
+					</div>
+					<div class="content" id="movementContainer">
+						<h4>Selected coordinates:</h4>
+          	<p>({{initCoords.x}},{{initCoords.y}})</p>
+						<h4>Heading: <span style="font-weight: normal;" id="headingVal">0</span></h4>
+						<div class="ui slider fluid range">
+							<input type="range" id="headingInput" min="0" max="360" value="0" style="width: 100%;"/>
+						</div>
+          	<div class="ui fluid {{activated 'initPos'}} button" id="confirmInitialPose">Set Initial Robot Pose</div>
+					</div>
+
+					<div class="title">
+						<i class="dropdown icon"></i>
+						Movements:
+					</div>
+					<div class="content" id="movementContainer">
+						<h4>Selected coordinates:</h4>
+          	<p>({{selected.x}},{{selected.y}})</p>
+          	<div class="ui fluid {{activated 'sendCoords'}} button" id="sendRobot">Go!</div>
+					</div>
+
+					<div class="title">
+						<i class="dropdown icon"></i>
+						Turtle Bot Status:
+					</div>
+					<div class="content">
+						<div class="ui grid">
+							<div class="row">
+								<div class="eight wide column">
+									<p>Position (x): {{rosTurtlePos.x}}</p>
+									<p>Position (y): {{rosTurtlePos.y}}</p>
+								</div>
+								<div class="eight wide column">
+									<p>Heading (th): {{rosTurtlePos.th}}</p>
+									<p>Message:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="sixteen wide column">
+									<div class="ui segment">
+										status!
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+      </div>
+      <div class="eleven wide column">
+        <div id="sketch1"></div>
       </div>
     </div>
   </div>
+  <!-- </div> -->
 </template>

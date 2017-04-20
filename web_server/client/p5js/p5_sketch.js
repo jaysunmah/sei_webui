@@ -14,6 +14,7 @@ var sketch1 = function (s) {
   }
 
   s.setup = function () {
+    console.log('loading sketch...');
     s.createCanvas($('#sketch1').width(), 1000);
     s.rectMode(s.CENTER);
     s.noStroke();
@@ -106,13 +107,17 @@ var sketch1 = function (s) {
         advanceNextMouseSelect();
       }
       Session.set('calibrationPoints', calibration_points);
-      Session.set('mouseCoords', {x: s.mouseX, y: s.mouseY});
+
     }
-    //Meteor.call('sendCoords', s.mouseX, s.mouseY);
+    Session.set('mouseCoords', {x: s.mouseX, y: s.mouseY});
+    // Meteor.call('sendCoords', s.mouseX, s.mouseY);
   }
 };
 
 Template.landing.onRendered(function() {
+    if (Session.get('renderedNonlanding')) {
+      location.reload();
+    }
     Session.set('mouseSelect', 'no_select');
     $('.ui.accordion').accordion();
 		$("#headingInput").mousemove(function () {
@@ -123,4 +128,4 @@ Template.landing.onRendered(function() {
 
     new p5(sketch1, "sketch1");
 
-})
+});

@@ -2,6 +2,15 @@ var x;
 var y;
 var canvas;
 
+select_calib_left = false;
+select_calib_right = false;
+select_calib_top = false;
+select_calib_bot = false;
+select_calib_all = false;
+
+select_init_pos = false;
+select_send_coords = false;
+
 Template.landing.events({
   'change #headingInput' (event) {
     Session.set('initializedHeading', true);
@@ -14,6 +23,8 @@ Template.landing.events({
       Session.set('calibrateAll', false);
       Session.set('mouseSelect', 'no_select');
     } else {
+      select_calib_left = true;
+      select_calib_all = true;
       Session.set('mouseSelect', 'left');
       Session.set('calibrateAll', true);
     }
@@ -76,7 +87,6 @@ Template.landing.helpers({
            return 'blue';
       }
     }
-
     return '';
   },
   calibrationPoints: function () {
@@ -86,17 +96,4 @@ Template.landing.helpers({
     var coords = Session.get('initPosCoords') || {x: -1, y: -1};
 		return canvasToWorld(coords.x, coords.y);
   }, //Get Ros connection status
-  rosConnectionStatus: function() {
-    if (Session.get('rosConnectionStatus')) {
-      return 'green';
-    }
-    return 'red';
-  },
-  rosTurtlePos: function() {
-    return Session.get('rosTurtlePos');
-  },
-  //TODO: REMOVE THIS LATER
-  testRosCoords: function() {
-    return data = Meteor.Coordinates.find({}).fetch();
-  }
 });

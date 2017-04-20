@@ -6,24 +6,27 @@
   <div class="ui hidden divider"></div>
 	<div class="ui container">
 		<div class="ui pointing stackable menu">
-			<a class="active item">
+			<a class="{{activated '/'}} item" href="/">
 				Home
 			</a>
-			<a class="item">
+      <a class="{{activated '/debug'}} item" href="/debug">
+        Console
+      </a>
+			<a class="{{activated '/wei'}} item" href="/debug">
 				About
 			</a>
-			<a class="item">
+			<!-- <a class="item">
 				Log In
-			</a>
+			</a> -->
 			<div class="right menu">
-				<div class="item">
-					<div class="ui transparent icon input">
-						<input type="text" placeholder="Search...">
-						<i class="search link icon"></i>
-					</div>
-				</div>
+				<a class="item">
+          Log In
+				</a>
 			</div>
 		</div>
 	</div>
-  {{>yield}}
+  <div class="ui hidden divider"></div>
+  <div class="ui container">
+    {{>yield}}
+  </div>
 </template>

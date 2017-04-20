@@ -1,6 +1,7 @@
 //returns true if the user is currently trying to calibrate points
 isCalibratingCoordinates = function() {
 	var mouseStatus = Session.get('mouseSelect');
+	// console.log(mouseStatus);
 	return (mouseStatus == 'left' ||
 					mouseStatus == 'right' ||
 					mouseStatus == 'top' ||

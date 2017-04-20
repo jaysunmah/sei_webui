@@ -6,6 +6,10 @@ Router.route('/', function() {
   this.render('landing');
 });
 
+Router.route('/debug', function() {
+  this.render('debug');
+});
+
 Router.route("/get_ros_location", {where: "server"})
   .get( function() {
     this.response.statusCode = 200;
@@ -23,10 +27,12 @@ Router.route("/set_holo_pos", {where: "server"})
   })
   .post (function() {
     var ip_address = this.request.headers['x-forwarded-for']
+    console.log(ip_address);
     post_data = this.request.body;
     var  data = Meteor.Coordinates.findOne({ip: ip_address});
+    //set a timeout to remove the ip_address if it isn't updated in
+    //a set amount of time
     disconnect_id = timeoutRemove(ip_address);
-
     if (data) {
       Meteor.clearTimeout(timeout_ids[ip_address]);
       timeout_ids[ip_address] = disconnect_id;
@@ -50,7 +56,6 @@ Router.route("/set_holo_pos", {where: "server"})
       }
       Meteor.Coordinates.insert(data);
     }
-
     this.response.statusCode = 200;
     this.response.end("wei");
     return;
