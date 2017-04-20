@@ -1,0 +1,75 @@
+<template name="debug">
+  <div class="ui stackable fluid grid">
+    <div class="row">
+      <div class="five wide column">
+        <div class="ui segment">
+          <p>
+            Turtlebot IP Address: <a class="ui {{rosConnectionStatus}} empty circular label"></a>
+          </p>
+          <div class="ui action fluid input">
+            <input type="text" placeholder="127.237.0.0" id="ipAddress">
+            <button class="ui button" id="initRos">Set</button>
+          </div>
+        </div>
+        <div class="ui segment">
+          <h5>Room coordinates</h5>
+        </div>
+        <div class="ui segment">
+          <h5>General usage guidelines:</h5>
+          <div>
+            <p class="nerdify"> get [ip_address] [data_name]</p>
+            <h5 class="no_margin">Example</h5>
+            <p class="nerdify">get 128.237.141.32 ros_coords</p>
+            <div class="ui hidden divider"></div>
+            <p class="nerdify">set [ip_address] [data_name] [value]</p>
+            <h5 class="no_margin">Example</h5>
+            <p class="nerdify">set 128.237.141.32 turtlebot_ip 128.237.11.142</p>
+            <p>
+              Current available data names:
+            </p>
+            <p>
+              ros_coords
+            </p>
+          </div>
+          <div class="ui hidden divider"></div>
+          <p>
+            Set procedures will require admin password each time
+          </p>
+        </div>
+        <div class="ui segment">
+          <p>
+            Testing purposes only!
+          </p>
+          <div class="ui action fluid input">
+            <input type="text" placeholder="messge" id="rosMessage">
+            <button class="ui button" id="sendRosMessage">Send</button>
+          </div>
+          <div>
+            {{#each testRosCoords}}
+              <p>
+                {{this.ros_coords.x}}
+              </p>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="eleven wide column">
+        <div class="ui nerdify segment" style="height: 500px;">
+          <h3 class="nerdify">Debug Console:</h3>
+
+        </div>
+        <!-- <div class="ui action fluid input" style="box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);"> -->
+          <div class="ui fluid labeled input">
+            <div class="ui label">
+              >>
+            </div>
+            <input class="nerdify" type="text" placeholder="command" id="inputCommand">
+          </div>
+
+          <!-- <input class="nerdify" type="text" value=">> " id="inputCommand"> -->
+          <!-- <button class="ui button" id="enterCommand">Enter</button> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</template>
